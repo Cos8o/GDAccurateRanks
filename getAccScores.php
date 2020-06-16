@@ -47,8 +47,8 @@ function doGet($url)
 
 	$response = curl_exec($c);
     
-    curl_close($c);
-    return $response;
+	curl_close($c);
+	return $response;
 }
 
 function doPost($url, $data)
@@ -62,8 +62,8 @@ function doPost($url, $data)
 
 	$response = curl_exec($c);
     
-    curl_close($c);
-    return $response;
+	curl_close($c);
+	return $response;
 }
 
 //Handler
@@ -74,56 +74,56 @@ if (!strcmp($type, "top"))
     
 	//Attempt request to GDBrowser's API
     
-    $buffer = doGet($scoresEndpoint);
+	$buffer = doGet($scoresEndpoint);
 	$rankData = json_decode($buffer);
     
-    //Iterate thru all players
+    	//Iterate thru all players
     
-    foreach($rankData as $player)
-    {
-    	//I mean, it's top 100 tbh
-    	if ($player->rank == 101)
+    	foreach($rankData as $player)
+    	{
+    		//I mean, it's top 100 tbh
+    		if ($player->rank == 101)
 			break;
     
-    	$buffer = doGet($userEndpoint.$player->playerID);
-        $playerData = json_decode($buffer);
+    		$buffer = doGet($userEndpoint.$player->playerID);
+        	$playerData = json_decode($buffer);
     
-    	$response .= "1:".$player->username;
-        $response .= ":2:".$player->playerID;
+    		$response .= "1:".$player->username;
+        	$response .= ":2:".$player->playerID;
 		$response .= ":3:".$player->stars;
 		$response .= ":4:".$player->demons;
 		$response .= ":6:".$player->rank;
 		$response .= ":7:"."0";
 		$response .= ":8:".$player->cp;
 		$response .= ":9:".$playerData->icon;
-        $response .= ":10:".$playerData->col1;
-        $response .= ":11:".$playerData->col2;
+        	$response .= ":10:".$playerData->col1;
+        	$response .= ":11:".$playerData->col2;
 		$response .= ":13:".$player->coins;
 		$response .= ":14:0"; //TBA (iconType)
 		$response .= ":15:".$playerData->glow;
 		$response .= ":16:".$playerData->accountID;
 		$response .= ":17:".$player->usercoins;
-        $response .= ":46:".$player->diamonds;
+        	$response .= ":46:".$player->diamonds;
         
-        $response .= "|";
+        	$response .= "|";
 	}
     
-    echo substr($response, 0, -1);
+	echo substr($response, 0, -1);
 }
 else
 {
 	//Post request to GD server
     
-    $request = "gameVersion=".$gameVersion;
-    $request .= "&binaryVersion=".$binaryVersion;
-    $request .= "&gdw=".$gdw;
-    $request .= "&accountID=".$accountID;
-    $request .= "&gjp=".$gjp;
+    	$request = "gameVersion=".$gameVersion;
+    	$request .= "&binaryVersion=".$binaryVersion;
+    	$request .= "&gdw=".$gdw;
+    	$request .= "&accountID=".$accountID;
+    	$request .= "&gjp=".$gjp;
 	$request .= "&type=".$type;
 	$request .= "&count=".$count;
 	$request .= "&secret=".$secret;
     
-    echo doPost($gdEndpoint, $request);
+	echo doPost($gdEndpoint, $request);
 }
 
 ?>
